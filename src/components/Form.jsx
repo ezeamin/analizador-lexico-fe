@@ -5,25 +5,32 @@ import Swal from 'sweetalert2';
 
 import { postDataFn } from '../api/post';
 
+import Tokens from './Result/Tokens';
+
 const Form = () => {
   const entryRef = useRef(null);
-  const exitRef = useRef(null);
 
-  const { mutate: sendData } = useMutation({
+  const {
+    mutate: sendData,
+    data: result,
+    error,
+  } = useMutation({
     mutationFn: postDataFn,
-    onSuccess: (e) => {
+    onSuccess: () => {
       Swal.close();
-      exitRef.current.value = e.data;
     },
     onError: (e) => {
       Swal.close();
-      Swal.fire({
-        title: 'Ocurrió un error',
-        text: e.message,
-        icon: 'error',
-        confirmButtonText: 'Aceptar',
-        showCancelButton: false,
-      });
+
+      if (!error.message.includes('Caracter')) {
+        Swal.fire({
+          title: 'Ocurrió un error',
+          text: e.message,
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          showCancelButton: false,
+        });
+      }
     },
   });
 
@@ -44,45 +51,75 @@ const Form = () => {
     }
 
     Swal.showLoading();
-    sendData(entry);
+    sendData({ text: entry });
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const fileContent = e.target.result;
+          entryRef.current.value = fileContent;
+        };
+        reader.readAsText(file);
+      } else {
+        Swal.fire({
+          title: 'Ocurrió un error',
+          text: 'El archivo debe ser de tipo .txt',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          showCancelButton: false,
+        });
+      }
+    }
   };
 
   return (
     <form className="row" onSubmit={handleSubmit}>
-      <fieldset className="col-12 col-md-6">
-        <label htmlFor="entry" className="form-label">
-          Texto de entrada
-        </label>
-        <textarea
-          id="entry"
-          rows="15"
-          className="form-control"
-          ref={entryRef}
-        ></textarea>
-      </fieldset>
+      <div className="col-12 col-md-6">
+        <fieldset>
+          <label htmlFor="entry" className="form-label">
+            Texto de entrada
+          </label>
+          <textarea
+            id="entry"
+            rows="15"
+            className="form-control"
+            ref={entryRef}
+          ></textarea>
+        </fieldset>
+        <div className="mt-3 d-flex justify-content-around gap-2">
+          <input type="file" onChange={handleFileUpload} />
+          <button
+            type="button"
+            className="btn btn-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#symbolsModal"
+          >
+            Tabla de símbolos
+          </button>
+          <button type="submit" className="btn btn-danger">
+            Analizar
+          </button>
+        </div>
+      </div>
       <fieldset className="col-12 col-md-6">
         <label htmlFor="exit" className="form-label">
           Texto de salida
         </label>
-        <textarea
-          id="exit"
-          rows="15"
-          className="form-control"
-          disabled
-          ref={exitRef}
-        ></textarea>
+        {result ? (
+          <Tokens data={result.data} />
+        ) : error ? (
+          <div className="alert alert-danger">{error.message}</div>
+        ) : (
+          <p className="d-flex align-items-center justify-content-center h-100">
+            No hay datos
+          </p>
+        )}
       </fieldset>
-      <div className="mt-3 d-flex justify-content-around">
-        <button type="submit" className="btn btn-dark">
-          Cargar archivo
-        </button>
-        <button type="submit" className="btn btn-dark">
-          Tabla de símbolos
-        </button>
-        <button type="submit" className="btn btn-danger">
-          Analizar
-        </button>
-      </div>
     </form>
   );
 };

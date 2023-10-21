@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const postDataFn = async (data) => {
-  const response = await fetch(`${API_URL}`, {
+  const response = await fetch(`${API_URL}/analyze`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -9,10 +9,11 @@ export const postDataFn = async (data) => {
     },
   });
 
+  const json = await response.json();
+
   if (!response.ok) {
-    throw new Error('Ocurrió un error en la solicitud');
+    throw new Error(json.error || 'Ocurrió un error en la solicitud');
   }
 
-  const json = await response.json();
   return json;
 };

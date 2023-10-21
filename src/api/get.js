@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getTable = async () => {
+export const getTableFn = async () => {
   const response = await fetch(`${API_URL}/table`);
 
   if (!response.ok) {
