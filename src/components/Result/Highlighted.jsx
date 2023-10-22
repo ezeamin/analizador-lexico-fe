@@ -20,7 +20,7 @@ const Highlighted = (props) => {
   if (data) {
     return (
       <div
-        className="result-text-container"
+        className="result-text-container monospace"
         dangerouslySetInnerHTML={{ __html: data?.text }}
       ></div>
     );
@@ -40,7 +40,7 @@ const Highlighted = (props) => {
 
     return (
       <div
-        className="result-text-container"
+        className="result-text-container monospace"
         style={{ color: '#A00000', backgroundColor: '#ffc8c8' }}
       >
         <p>{error}</p>

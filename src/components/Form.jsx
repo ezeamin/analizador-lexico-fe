@@ -104,7 +104,7 @@ const Form = () => {
           <textarea
             id="entry"
             rows="15"
-            className="form-control"
+            className="form-control monospace"
             ref={entryRef}
           ></textarea>
         </fieldset>

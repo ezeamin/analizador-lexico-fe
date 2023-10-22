@@ -1,13 +1,29 @@
-#root, main{
-    min-height: 100vh;
-    background-color: rgb(214, 214, 214);
+#root,
+main {
+  min-height: 100vh;
+  background-color: rgb(214, 214, 214);
 }
 
-.upper-logo{
-    width: 50px;
-    margin-bottom: 1rem;
+.upper-logo {
+  width: 50px;
+  margin-bottom: 1rem;
 }
 
-table{
-    border-radius: 0.5rem;
+table {
+  border-radius: 0.5rem;
+}
+
+.monospace{
+    font-family: monospace;
+}
+
+textarea,
+.result-text-container {
+  height: 250px;
+}
+
+.lexeme{
+    background-color: white;
+    padding: 0 7px;
+    border-radius: 5px;
 }
