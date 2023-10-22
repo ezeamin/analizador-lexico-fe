@@ -1,12 +1,26 @@
-.result-text-container{
-    width: 100%;
-    height: 100%;
-    background-color: rgb(182 182 182);
-    border-radius: 0.5rem;
-    padding:6px 12px ;
+textarea,
+.result-text-container {
+  font-family: monospace;
+  height: 250px;
 }
 
-.highlighted-token{
-    padding: 0 5px;
-    border-radius: 5px;
+.result-text-container {
+  width: 100%;
+  background-color: rgb(182 182 182);
+  border-radius: 0.5rem;
+  padding: 6px 12px;
+  overflow-x: auto;
+  min-height: 100px;
+}
+
+.highlighted-token {
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+@media (width > 768px) {
+  textarea,
+  .result-text-container {
+    height: 375px;
+  }
 }

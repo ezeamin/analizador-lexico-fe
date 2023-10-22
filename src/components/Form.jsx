@@ -5,16 +5,22 @@ import Swal from 'sweetalert2';
 
 import { postDataFn } from '../api/post';
 
-// import Tokens from './Result/Tokens';
 import Highlighted from './Result/Highlighted';
+import Tokens from './Result/Tokens';
 
 const Form = () => {
+  // REFS ----------------------------------------
+
   const entryRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // FETCH ---------------------------------------
 
   const {
     mutate: sendData,
     data: result,
     error,
+    reset,
   } = useMutation({
     mutationFn: postDataFn,
     onSuccess: () => {
@@ -35,11 +41,11 @@ const Form = () => {
     },
   });
 
+  // HANDLERS ------------------------------------
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // const entry = entryRef.current.value;
-    // get the text from the entryRef, but preserve the line breaks
     const entry = entryRef.current.value;
 
     if (!entry) {
@@ -80,46 +86,66 @@ const Form = () => {
     }
   };
 
+  const handleClean = () => {
+    entryRef.current.value = '';
+    inputRef.current.value = '';
+    reset();
+  };
+
+  // RENDER --------------------------------------
+
   return (
-    <form className="row" onSubmit={handleSubmit}>
-      <fieldset className="col-12 col-md-6">
-        <label htmlFor="entry" className="form-label">
-          Texto de entrada
-        </label>
-        <textarea
-          id="entry"
-          rows="15"
-          className="form-control"
-          ref={entryRef}
-        ></textarea>
-      </fieldset>
-      <fieldset className="col-12 col-md-6">
-        <label htmlFor="exit" className="form-label">
-          Texto de salida
-        </label>
-        <Highlighted
-          data={result}
-          error={error?.message}
-          // text={entryRef.current.value}
-        />
-      </fieldset>
-      <div className="col-12 col-md-6">
-        <div className="mt-3 d-flex justify-content-around gap-2">
-          <input type="file" onChange={handleFileUpload} />
-          <button
-            type="button"
-            className="btn btn-dark"
-            data-bs-toggle="modal"
-            data-bs-target="#symbolsModal"
-          >
-            Tabla de símbolos
-          </button>
-          <button type="submit" className="btn btn-danger">
-            Analizar
-          </button>
+    <>
+      <form className="row" onSubmit={handleSubmit}>
+        <fieldset className="col-12 col-md-6">
+          <label htmlFor="entry" className="form-label">
+            Texto de entrada
+          </label>
+          <textarea
+            id="entry"
+            rows="15"
+            className="form-control"
+            ref={entryRef}
+          ></textarea>
+        </fieldset>
+        <fieldset className="col-12 col-md-6">
+          <label htmlFor="exit" className="form-label mt-2 mt-md-0">
+            Texto de salida
+          </label>
+          <Highlighted
+            data={result}
+            error={error?.message}
+            text={entryRef?.current?.value}
+          />
+        </fieldset>
+        <div className="col-12">
+          <div className="mt-3 d-flex flex-column flex-md-row justify-content-between gap-2">
+            <input type="file" onChange={handleFileUpload} ref={inputRef} />
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-secondary w-100"
+                onClick={handleClean}
+              >
+                Limpiar
+              </button>
+              <button
+                type="button"
+                className="btn btn-dark w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#symbolsModal"
+              >
+                Tabla de símbolos
+              </button>
+              <button type="submit" className="btn btn-danger w-100">
+                Analizar
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+      {result && <Tokens data={result.data} text={entryRef?.current?.value} />}
+    </>
   );
 };
 export default Form;

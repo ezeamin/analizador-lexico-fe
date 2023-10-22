@@ -3,6 +3,11 @@
     background-color: rgb(214, 214, 214);
 }
 
+.upper-logo{
+    width: 50px;
+    margin-bottom: 1rem;
+}
+
 table{
     border-radius: 0.5rem;
 }
