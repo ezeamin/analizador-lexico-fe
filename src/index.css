@@ -13,8 +13,8 @@ table {
   border-radius: 0.5rem;
 }
 
-.monospace{
-    font-family: monospace;
+.monospace {
+  font-family: monospace;
 }
 
 textarea,
@@ -22,8 +22,8 @@ textarea,
   height: 250px;
 }
 
-.lexeme{
-    background-color: white;
-    padding: 0 7px;
-    border-radius: 5px;
+.lexeme {
+  background-color: white;
+  padding: 0 7px;
+  border-radius: 5px;
 }

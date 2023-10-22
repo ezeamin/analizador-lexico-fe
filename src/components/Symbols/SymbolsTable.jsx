@@ -24,9 +24,15 @@ const SymbolsTable = (props) => {
     <table className="table table-striped table-bordered overflow-hidden">
       <thead>
         <tr>
-          <th className='text-center'>Token</th>
-          <th className='text-center'>Lexema</th>
-          <th className='text-center'>Palabra reservada</th>
+          <th className="text-center" style={{ width: '30%' }}>
+            Token
+          </th>
+          <th className="text-center" style={{ width: '30%' }}>
+            Lexema
+          </th>
+          <th className="text-center" style={{ width: '40%' }}>
+            Palabra reservada
+          </th>
         </tr>
       </thead>
       <tbody>

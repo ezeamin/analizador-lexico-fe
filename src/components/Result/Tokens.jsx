@@ -40,7 +40,7 @@ const Tokens = (props) => {
           <table className="table table-striped table-bordered overflow-hidden">
             <thead>
               <tr>
-                <th className='color-table-header'></th>
+                <th className="color-table-header"></th>
                 <th className="text-center">Token</th>
                 <th className="text-center">Lexema</th>
               </tr>

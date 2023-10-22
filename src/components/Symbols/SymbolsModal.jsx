@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+
 import Swal from 'sweetalert2';
 
 import { getTableFn } from '../../api/get';
+
+import IdentifiersTable from './IdentifiersTable';
 import SymbolsTable from './SymbolsTable';
 
 const SymbolsModal = () => {
@@ -35,6 +38,7 @@ const SymbolsModal = () => {
           </div>
           <div className="modal-body">
             <SymbolsTable symbols={symbols} />
+            <IdentifiersTable />
           </div>
         </div>
       </div>

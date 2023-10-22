@@ -4,11 +4,16 @@ import { useMutation } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
 import { postDataFn } from '../api/post';
+import { useIdentifiers } from '../store/useIdentifiers';
 
 import Highlighted from './Result/Highlighted';
 import Tokens from './Result/Tokens';
 
 const Form = () => {
+  // ZUSTAND -------------------------------------
+
+  const { setIdentifiers, clearIdentifiers } = useIdentifiers();
+
   // REFS ----------------------------------------
 
   const entryRef = useRef(null);
@@ -23,8 +28,18 @@ const Form = () => {
     reset,
   } = useMutation({
     mutationFn: postDataFn,
-    onSuccess: () => {
+    onSuccess: (data) => {
       Swal.close();
+
+      const identifiers = data.data.filter(
+        (token) => token.type === 'Identificador',
+      );
+
+      const uniqueIdentifiers = [
+        ...new Set(identifiers.map((item) => item.value)),
+      ];
+
+      setIdentifiers(uniqueIdentifiers);
     },
     onError: (e) => {
       Swal.close();
@@ -90,6 +105,7 @@ const Form = () => {
     entryRef.current.value = '';
     inputRef.current.value = '';
     reset();
+    clearIdentifiers();
   };
 
   // RENDER --------------------------------------
