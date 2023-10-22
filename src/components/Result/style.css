@@ -5,6 +5,7 @@
   padding: 6px 12px;
   overflow-x: auto;
   min-height: 100px;
+  user-select: none;
 }
 
 .highlighted-token {
@@ -24,6 +25,17 @@
     height: 10px;
     border-radius: 50%;
     border: 1px solid #cccccc;
+  }
+}
+
+.hover-effect {
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    /* darken bg on hover */
+    background-color: rgb(88, 88, 88) !important;
+    color: #ffffff;
   }
 }
 

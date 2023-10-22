@@ -13,7 +13,10 @@ const Highlighted = (props) => {
     spans.forEach((span) => {
       if (span.innerHTML === '\n') return;
 
-      span.style.backgroundColor = span.title;
+      const color = span.className.split('color-')[1];
+
+      span.style.backgroundColor = color;
+      span.classList.add('hover-effect');
     });
   }, [data?.text]);
 
