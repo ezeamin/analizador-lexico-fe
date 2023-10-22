@@ -5,7 +5,8 @@ import Swal from 'sweetalert2';
 
 import { postDataFn } from '../api/post';
 
-import Tokens from './Result/Tokens';
+// import Tokens from './Result/Tokens';
+import Highlighted from './Result/Highlighted';
 
 const Form = () => {
   const entryRef = useRef(null);
@@ -37,6 +38,8 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // const entry = entryRef.current.value;
+    // get the text from the entryRef, but preserve the line breaks
     const entry = entryRef.current.value;
 
     if (!entry) {
@@ -79,18 +82,28 @@ const Form = () => {
 
   return (
     <form className="row" onSubmit={handleSubmit}>
+      <fieldset className="col-12 col-md-6">
+        <label htmlFor="entry" className="form-label">
+          Texto de entrada
+        </label>
+        <textarea
+          id="entry"
+          rows="15"
+          className="form-control"
+          ref={entryRef}
+        ></textarea>
+      </fieldset>
+      <fieldset className="col-12 col-md-6">
+        <label htmlFor="exit" className="form-label">
+          Texto de salida
+        </label>
+        <Highlighted
+          data={result}
+          error={error?.message}
+          // text={entryRef.current.value}
+        />
+      </fieldset>
       <div className="col-12 col-md-6">
-        <fieldset>
-          <label htmlFor="entry" className="form-label">
-            Texto de entrada
-          </label>
-          <textarea
-            id="entry"
-            rows="15"
-            className="form-control"
-            ref={entryRef}
-          ></textarea>
-        </fieldset>
         <div className="mt-3 d-flex justify-content-around gap-2">
           <input type="file" onChange={handleFileUpload} />
           <button
@@ -106,20 +119,6 @@ const Form = () => {
           </button>
         </div>
       </div>
-      <fieldset className="col-12 col-md-6">
-        <label htmlFor="exit" className="form-label">
-          Texto de salida
-        </label>
-        {result ? (
-          <Tokens data={result.data} />
-        ) : error ? (
-          <div className="alert alert-danger">{error.message}</div>
-        ) : (
-          <p className="d-flex align-items-center justify-content-center h-100">
-            No hay datos
-          </p>
-        )}
-      </fieldset>
     </form>
   );
 };
