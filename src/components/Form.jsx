@@ -44,6 +44,8 @@ const Form = () => {
     onError: (e) => {
       Swal.close();
 
+      clearIdentifiers();
+
       if (!error.message.includes('Caracter')) {
         Swal.fire({
           title: 'Ocurrió un error',
