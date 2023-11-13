@@ -7,7 +7,7 @@ import { postDataFn } from '../api/post';
 import { useIdentifiers } from '../store/useIdentifiers';
 
 import Highlighted from './Result/Highlighted';
-import Tokens from './Result/Tokens';
+import Result from './Result/Result';
 
 const Form = () => {
   // ZUSTAND -------------------------------------
@@ -31,7 +31,7 @@ const Form = () => {
     onSuccess: (data) => {
       Swal.close();
 
-      const identifiers = data.data.filter(
+      const identifiers = data.lexicalAnalysis.filter(
         (token) => token.type === 'Identificador',
       );
 
@@ -162,7 +162,7 @@ const Form = () => {
           </div>
         </div>
       </form>
-      {result && <Tokens data={result.data} text={entryRef?.current?.value} />}
+      {result && <Result data={result} text={entryRef?.current?.value}/>}
     </>
   );
 };
