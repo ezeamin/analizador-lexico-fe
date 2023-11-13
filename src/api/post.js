@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const postDataFn = async (data) => {
-  const response = await fetch(`${API_URL}/syntax-analyze`, {
+  const response = await fetch(`${API_URL}/analyze`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {

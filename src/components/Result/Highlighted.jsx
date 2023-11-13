@@ -44,7 +44,7 @@ const Highlighted = (props) => {
     return (
       <div
         className="result-text-container monospace"
-        style={{ color: '#A00000', backgroundColor: '#ffc8c8' }}
+        style={{ color: '#58151c', backgroundColor: '#f8d7da' }}
       >
         <p>{error}</p>
         {error.includes('Caracter') && (

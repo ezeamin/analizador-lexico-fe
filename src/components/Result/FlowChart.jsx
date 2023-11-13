@@ -42,12 +42,12 @@ const FlowChart = (props) => {
     }
 
     // TODO
-    // reloadLayout(); CHECK!!!!
+    reloadLayout();
   }, [reloadLayout, initialNodes, initialEdges, setEdges, setNodes]);
 
   return (
     <div className="flowchart-viewer">
-      <button onClick={reloadLayout}>Reload</button>
+      <button onClick={reloadLayout} className='reload-button btn btn-light'>Recargar</button>
       <ReactFlow
         nodes={nodes}
         edges={edges}

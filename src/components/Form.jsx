@@ -58,6 +58,9 @@ const Form = () => {
     },
   });
 
+  const isSuccess = result && !error;
+  const isError = error && !result;
+
   // HANDLERS ------------------------------------
 
   const handleSubmit = (e) => {
@@ -114,6 +117,8 @@ const Form = () => {
 
   return (
     <>
+      {isSuccess && <div className="alert alert-success">El análisis fue exitoso 🥳🎉</div>}
+      {isError && <div className="alert alert-danger">El análisis falló. Revisa el error 🥺</div>}
       <form className="row" onSubmit={handleSubmit}>
         <fieldset className="col-12 col-md-6">
           <label htmlFor="entry" className="form-label">
@@ -162,7 +167,7 @@ const Form = () => {
           </div>
         </div>
       </form>
-      {result && <Result data={result} text={entryRef?.current?.value}/>}
+      {result && <Result data={result} text={entryRef?.current?.value} />}
     </>
   );
 };

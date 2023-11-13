@@ -24,20 +24,17 @@ const Tokens = (props) => {
 
   return (
     <>
-      <section className="row mt-3 justify-content-center">
-        <article className="col-12 col-md-4">
+      <section className="row justify-content-center">
           <button
             type="button"
             className="btn btn-dark w-100 mb-2"
             onClick={downloadTxtFile}
           >
-            Descargar salida
+            Descargar salida léxica
           </button>
-        </article>
       </section>
       <section className="row justify-content-center">
-        <article className="col-12 col-md-4">
-          <table className="table table-striped table-bordered overflow-hidden">
+          <table className="table table-striped table-bordered overflow-hidden mb-0">
             <thead>
               <tr>
                 <th className="color-table-header"></th>
@@ -51,7 +48,6 @@ const Tokens = (props) => {
               ))}
             </tbody>
           </table>
-        </article>
       </section>
     </>
   );
