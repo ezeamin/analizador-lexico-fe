@@ -42,7 +42,7 @@
 .reload-button{
   position: absolute;
   margin: 1rem;
-  z-index: 9999;
+  z-index: 1000;
   background-color: #ffffff;
 }
 

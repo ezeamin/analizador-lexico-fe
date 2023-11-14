@@ -1,14 +1,16 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
-import { postDataFn } from '../api/post';
-import { useIdentifiers } from '../store/useIdentifiers';
+import { postDataFn } from '../../api/post';
+import { useIdentifiers } from '../../store/useIdentifiers';
 
-import Highlighted from './Result/Highlighted';
-import Result from './Result/Result';
-import { useState } from 'react';
+import Editor from './Editor';
+import Highlighted from '../Result/Highlighted';
+import Result from '../Result/Result';
+
+import './style.css';
 
 const Form = () => {
   // ZUSTAND -------------------------------------
@@ -17,8 +19,9 @@ const Form = () => {
 
   // REFS ----------------------------------------
 
-  const entryRef = useRef(null);
   const inputRef = useRef(null);
+
+  const [text, setText] = useState('');
 
   // FETCH ---------------------------------------
 
@@ -45,7 +48,6 @@ const Form = () => {
       setIdentifiers(uniqueIdentifiers);
     },
     onError: (e) => {
-      console.log(e.type.toUpperCase());
       Swal.close();
 
       clearIdentifiers();
@@ -72,9 +74,7 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const entry = entryRef.current.value;
-
-    if (!entry) {
+    if (!text) {
       Swal.fire({
         title: 'Ocurrió un error',
         text: 'El campo de entrada no puede estar vacío',
@@ -86,7 +86,7 @@ const Form = () => {
     }
 
     Swal.showLoading();
-    sendData({ text: entry });
+    sendData({ text });
   };
 
   const handleFileUpload = (event) => {
@@ -97,7 +97,7 @@ const Form = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
           const fileContent = e.target.result;
-          entryRef.current.value = fileContent;
+          setText(fileContent);
         };
         reader.readAsText(file);
       } else {
@@ -113,8 +113,8 @@ const Form = () => {
   };
 
   const handleClean = () => {
-    entryRef.current.value = '';
     inputRef.current.value = '';
+    setText('');
     reset();
     clearIdentifiers();
   };
@@ -127,11 +127,11 @@ const Form = () => {
         <div className="alert alert-success">El análisis fue exitoso 🥳🎉</div>
       )}
       {isError && (
-        <div className="d-flex gap-2">
-          <div className="alert alert-danger w-100">
+        <div className="d-flex flex-column flex-md-row gap-2 mb-3">
+          <div className="alert alert-danger w-100 mb-0">
             El análisis falló. Revisa el error 🥺
           </div>
-          <div className="alert alert-danger" style={{ whiteSpace: 'noWrap' }}>
+          <div className="alert alert-danger mb-0" style={{ whiteSpace: 'noWrap' }}>
             {`ERROR ${errorType}`}
           </div>
         </div>
@@ -141,12 +141,7 @@ const Form = () => {
           <label htmlFor="entry" className="form-label">
             Texto de entrada
           </label>
-          <textarea
-            id="entry"
-            rows="15"
-            className="form-control monospace"
-            ref={entryRef}
-          ></textarea>
+          <Editor text={text} setText={setText} />
         </fieldset>
         <fieldset className="col-12 col-md-6">
           <label htmlFor="exit" className="form-label mt-2 mt-md-0">
@@ -155,7 +150,7 @@ const Form = () => {
           <Highlighted
             data={result}
             error={error?.error}
-            text={entryRef?.current?.value}
+            text={text}
           />
         </fieldset>
         <div className="col-12">
@@ -184,7 +179,7 @@ const Form = () => {
           </div>
         </div>
       </form>
-      {result && <Result data={result} text={entryRef?.current?.value} />}
+      {result && <Result data={result} text={text} />}
     </>
   );
 };

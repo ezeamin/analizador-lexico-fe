@@ -13,17 +13,3 @@ table {
   border-radius: 0.5rem;
 }
 
-.monospace {
-  font-family: monospace;
-}
-
-textarea,
-.result-text-container {
-  height: 250px;
-}
-
-.lexeme {
-  background-color: white;
-  padding: 0 7px;
-  border-radius: 5px;
-}

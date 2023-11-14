@@ -22,10 +22,12 @@ const Highlighted = (props) => {
 
   if (data) {
     return (
-      <div
-        className="result-text-container monospace"
-        dangerouslySetInnerHTML={{ __html: data?.text }}
-      ></div>
+      <div className="outer-area">
+        <div
+          className="result-text-container monospace"
+          dangerouslySetInnerHTML={{ __html: data?.text }}
+        ></div>
+      </div>
     );
   }
 
@@ -42,23 +44,23 @@ const Highlighted = (props) => {
       errorSection?.trim().split(error.split(': ')[1])[0].length + 4;
 
     return (
-      <div
-        className="result-text-container monospace"
-        style={{ color: '#58151c', backgroundColor: '#f8d7da' }}
-      >
-        <p>{error}</p>
-        {error.includes('Caracter') && (
-          <p className="mb-0">En: {errorSection}</p>
-        )}
-        {error.includes('Caracter') && (
-          <p>
-            {new Array(spacesBeforeSymbol).fill('').map((_, index) => (
-              <span key={index}>&nbsp;</span>
-            ))}
-            <span>^</span>
-          </p>
-        )}
-      </div>
+        <div
+          className="result-text-container monospace"
+          style={{ color: '#58151c', backgroundColor: '#f8d7da' }}
+        >
+          <p>{error}</p>
+          {error.includes('Caracter') && (
+            <p className="mb-0">En: {errorSection}</p>
+          )}
+          {error.includes('Caracter') && (
+            <p>
+              {new Array(spacesBeforeSymbol).fill('').map((_, index) => (
+                <span key={index}>&nbsp;</span>
+              ))}
+              <span>^</span>
+            </p>
+          )}
+        </div>
     );
   }
 
