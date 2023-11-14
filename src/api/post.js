@@ -12,7 +12,7 @@ export const postDataFn = async (data) => {
   const json = await response.json();
 
   if (!response.ok) {
-    throw new Error(json.error || 'Ocurrió un error en la solicitud');
+    throw json;
   }
 
   return json;

@@ -8,6 +8,7 @@ import { useIdentifiers } from '../store/useIdentifiers';
 
 import Highlighted from './Result/Highlighted';
 import Result from './Result/Result';
+import { useState } from 'react';
 
 const Form = () => {
   // ZUSTAND -------------------------------------
@@ -20,6 +21,8 @@ const Form = () => {
   const inputRef = useRef(null);
 
   // FETCH ---------------------------------------
+
+  const [errorType, setErrorType] = useState(null);
 
   const {
     mutate: sendData,
@@ -42,19 +45,22 @@ const Form = () => {
       setIdentifiers(uniqueIdentifiers);
     },
     onError: (e) => {
+      console.log(e.type.toUpperCase());
       Swal.close();
 
       clearIdentifiers();
 
-      if (!error.message.includes('Caracter')) {
+      if (!e.type) {
         Swal.fire({
           title: 'Ocurrió un error',
-          text: e.message,
+          text: e.error,
           icon: 'error',
           confirmButtonText: 'Aceptar',
           showCancelButton: false,
         });
       }
+
+      setErrorType(e.type.toUpperCase());
     },
   });
 
@@ -117,8 +123,19 @@ const Form = () => {
 
   return (
     <>
-      {isSuccess && <div className="alert alert-success">El análisis fue exitoso 🥳🎉</div>}
-      {isError && <div className="alert alert-danger">El análisis falló. Revisa el error 🥺</div>}
+      {isSuccess && (
+        <div className="alert alert-success">El análisis fue exitoso 🥳🎉</div>
+      )}
+      {isError && (
+        <div className="d-flex gap-2">
+          <div className="alert alert-danger w-100">
+            El análisis falló. Revisa el error 🥺
+          </div>
+          <div className="alert alert-danger" style={{ whiteSpace: 'noWrap' }}>
+            {`ERROR ${errorType}`}
+          </div>
+        </div>
+      )}
       <form className="row" onSubmit={handleSubmit}>
         <fieldset className="col-12 col-md-6">
           <label htmlFor="entry" className="form-label">
@@ -137,7 +154,7 @@ const Form = () => {
           </label>
           <Highlighted
             data={result}
-            error={error?.message}
+            error={error?.error}
             text={entryRef?.current?.value}
           />
         </fieldset>
