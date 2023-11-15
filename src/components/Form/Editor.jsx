@@ -14,9 +14,11 @@ const Editor = (props) => {
   // EFFECTS -------------------------------------
 
   useEffect(() => {
-    const lines = text.split('\n').length;
+    const lines = text.split('\n').length >= 1 ? text.split('\n').length : 1;
     setLineNumbers(lines);
   }, [text]);
+
+  // RENDER --------------------------------------
 
   return (
     <div className="outer-area">

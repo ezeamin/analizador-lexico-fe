@@ -88,6 +88,13 @@ const Form = () => {
     Swal.showLoading();
     sendData({ text });
   };
+  
+  const handleClean = () => {
+    inputRef.current.value = '';
+    setText('');
+    reset();
+    clearIdentifiers();
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -100,6 +107,8 @@ const Form = () => {
           setText(fileContent);
         };
         reader.readAsText(file);
+
+        handleClean();
       } else {
         Swal.fire({
           title: 'Ocurrió un error',
@@ -110,13 +119,6 @@ const Form = () => {
         });
       }
     }
-  };
-
-  const handleClean = () => {
-    inputRef.current.value = '';
-    setText('');
-    reset();
-    clearIdentifiers();
   };
 
   // RENDER --------------------------------------

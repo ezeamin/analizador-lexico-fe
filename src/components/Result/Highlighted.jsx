@@ -44,23 +44,25 @@ const Highlighted = (props) => {
       errorSection?.trim().split(error.split(': ')[1])[0].length + 4;
 
     return (
-        <div
-          className="result-text-container monospace"
-          style={{ color: '#58151c', backgroundColor: '#f8d7da' }}
-        >
-          <p>{error}</p>
-          {error.includes('Caracter') && (
-            <p className="mb-0">En: {errorSection}</p>
-          )}
-          {error.includes('Caracter') && (
-            <p>
-              {new Array(spacesBeforeSymbol).fill('').map((_, index) => (
+      <div
+        className="result-text-container monospace"
+        style={{ color: '#58151c', backgroundColor: '#f8d7da' }}
+      >
+        <p>{error}</p>
+        {error.includes('Caracter') && errorSection && (
+          <p className="mb-0">En: {errorSection}</p>
+        )}
+        {error.includes('Caracter') && errorSection && (
+          <p>
+            {new Array(spacesBeforeSymbol >= 0 ? spacesBeforeSymbol : 1)
+              .fill('')
+              .map((_, index) => (
                 <span key={index}>&nbsp;</span>
               ))}
-              <span>^</span>
-            </p>
-          )}
-        </div>
+            <span>^</span>
+          </p>
+        )}
+      </div>
     );
   }
 
